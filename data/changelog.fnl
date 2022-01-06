@@ -22,5 +22,33 @@
             :element "bootstraps.ms-change"
             :note "Make & submit change"
             :status "Added"
-            :time 1641494883}]
+            :time 1641494883}
+           {:author "emsenn"
+            :element "bootstraps.load-data"
+            :status "Added"
+            :time 1641495625}
+           {:author "emsenn"
+            :element "bootstraps.save-data"
+            :status "Added"
+            :time 1641495633}
+           {:author "emsenn"
+            :element "bootstraps.make-plan"
+            :status "Added"
+            :time 1641495680}
+           {:author "emsenn"
+            :element "bootstraps.save-plan"
+            :status "Added"
+            :time 1641495685}
+           {:author "emsenn"
+            :element "make-plan"
+            :status "Removed"
+            :time 1641496164}
+           {:author "emsenn"
+            :element "save-plan"
+            :status "Removed"
+            :time 1641496168}
+           {:author "emsenn"
+            :element "ms-plan"
+            :status "Added"
+            :time 1641496175}]
  :version "0.1.0"}

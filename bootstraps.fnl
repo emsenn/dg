@@ -3,7 +3,18 @@
 ;; it's here to bootstrap the rest.
 ;;; o golly here we go!
 (local fennel (require :fennel))
-;; first, a way to write down our changes
+;; utilities
+(lambda load-data [path]
+  "Load the .fnl file at PATH, as data"
+  (fennel.eval
+   (: (io.open (.. path ".fnl") :r)
+      :read "*all")))
+(lambda save-data [data path]
+  "Save DATA to a .fnl file at PATH."
+  (let [src (io.open (.. path ".fnl") :w)]
+    (src:write (fennel.view data))
+    (src:close)))
+;; changelog stuff
 (lambda load-changelog []
   (let [src (io.open :data/changelog.fnl :r)
         loaded-data (src:read "*all")]
@@ -22,7 +33,14 @@
 (lambda ms-change [author status element ?note]
   (submit-changelog-entry
    (make-changelog-entry author status element ?note)))
+;; next, a way to write down plans!
+(lambda ms-plan [author urgency description]
+  "Make a plan of URGency and IMPortance with DESCription by AUTHOR"
+  (let [plans (load-data :data/plans)]
+    (table.insert plans {:time (os.time) : author : urgency : description})
+    (save-data plans :data/plans)))
 ;; lets export our functions
 {: load-changelog : save-changelog
  : make-changelog-entry : submit-changelog-entry
- : ms-change}
+ : ms-change
+ : ms-plan }
