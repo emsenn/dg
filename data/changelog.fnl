@@ -40,15 +40,55 @@
             :status "Added"
             :time 1641495685}
            {:author "emsenn"
-            :element "make-plan"
+            :element "bootstraps.make-plan"
             :status "Removed"
             :time 1641496164}
            {:author "emsenn"
-            :element "save-plan"
+            :element "bootstraps.save-plan"
             :status "Removed"
             :time 1641496168}
            {:author "emsenn"
-            :element "ms-plan"
+            :element "bootstraps.ms-plan"
             :status "Added"
-            :time 1641496175}]
+            :time 1641496175}
+           {:author "emsenn"
+            :element "bootstraps.changelog.load"
+            :status "Added"
+            :time 1641496322}
+           {:author "emsenn"
+            :element "bootstraps.changelog.save"
+            :status "Added"
+            :time 1641496328}
+           {:author "emsenn"
+            :element "bootstraps.load-changelog"
+            :status "Removed"
+            :time 1641496378}
+           {:author "emsenn"
+            :element "bootstraps.save-changelog"
+            :status "Removed"
+            :time 1641496382}
+           {:author "emsenn"
+            :element "bootstraps.make-changelog-entry"
+            :status "Removed"
+            :time 1641496582}
+           {:author "emsenn"
+            :element "bootstraps.submit-changelog-entry"
+            :status "Removed"
+            :time 1641496587}
+           {:author "emsenn"
+            :element "bootstraps.ms-change"
+            :status "Removed"
+            :time 1641496593}
+           {:author "emsenn"
+            :element "bootstraps.changelog.make-entry"
+            :status "Added"
+            :time 1641496602}
+           {:author "emsenn"
+            :element "bootstraps.changelog.submit-entry"
+            :status "Added"
+            :time 1641496607}
+           {:author "emsenn"
+            :element "bootstraps.changelog.ms-entry"
+            :status "Added"
+            :time 1641496615}]
  :version "0.1.0"}

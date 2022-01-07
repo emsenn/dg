@@ -15,24 +15,19 @@
     (src:write (fennel.view data))
     (src:close)))
 ;; changelog stuff
-(lambda load-changelog []
-  (let [src (io.open :data/changelog.fnl :r)
-        loaded-data (src:read "*all")]
-    (fennel.eval loaded-data)))
-(lambda save-changelog [entries]
-  (let [src (io.open :data/changelog.fnl :w)]
-    (src:write (fennel.view entries))
-    (src:close)))
-(lambda make-changelog-entry [author status element ?note]
+(local changelog {})
+(lambda changelog.load [] (load-data :data/changelog))
+(lambda changelog.save [log] (save-data log :data/changelog))
+(lambda changelog.make-entry [author status element ?note]
   {:time (os.time) : author : status : element
    :note (or ?note nil)}) ; setting a table value to nil drops it from the table
-(lambda submit-changelog-entry [entry]
-  (let [changelog (load-changelog)]
+(lambda changelog.submit-entry [entry]
+  (let [changelog (changelog.load)]
     (table.insert changelog.entries entry)
-    (save-changelog changelog)))
-(lambda ms-change [author status element ?note]
-  (submit-changelog-entry
-   (make-changelog-entry author status element ?note)))
+    (changelog.save changelog)))
+(lambda changelog.ms-entry [author status element ?note]
+  (changelog.make-entry
+   (changelog.submit-entry author status element ?note)))
 ;; next, a way to write down plans!
 (lambda ms-plan [author urgency description]
   "Make a plan of URGency and IMPortance with DESCription by AUTHOR"
