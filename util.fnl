@@ -1,4 +1,5 @@
 (local fennel (require :fennel))
+(local math (require :math))
 ;;; data
 (lambda save-data [data path]
   (let [save-file (io.open (.. path ".fnl") :w)]
@@ -27,6 +28,8 @@
 (lambda collect-keys [tab]
   "Return a sequence of TABle's keys."
   (icollect [key _ (pairs tab)] key))
+(lambda random-value [tab]
+  (. tab (math.random (length tab))))	
 ;;; strings
 (lambda make-id [?existing]
   "Generates an ID, dismissing it if its already in EXISTING."

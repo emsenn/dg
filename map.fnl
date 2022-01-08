@@ -11,6 +11,8 @@
   (local file-name (or ?file-name name))
   (local map (dictionary.make file-name name ?base))
   (local I (util.make-string-inserters name))
+  (local make-thing (if map.dimension (partial map.dimension.make-thing map.dimension)
+                   thing.make))
   (tset map name {})
   (tset map (I.I :make- :-item)
         (lambda make-map-item [map ?item-name ?item-description]
@@ -21,7 +23,7 @@
   (tset map (I.P :start-)
         (lambda start-map [map]
           (each [id map-item (pairs (: map (I.P :load-)))]
-            (tset (. map name) id (area.make map-item)))))
+            (tset (. map name) id (area.make map-item (make-thing))))))
   map)
 
 {: make}

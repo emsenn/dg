@@ -12,8 +12,9 @@
                     (thing.make)))
   (mud-client.make server connection client)
   (client.mud-connection:settimeout server.mudsocket-timeout)
-  (each [_ make (pairs server.mud-client-makers)]
-    (make client))
+  (each [_ maker (pairs server.mud-client-makers)]
+    (let [make (. (require maker) :make)]
+      (make client)))
   (table.insert server.mud-clients client)
   (server:send-mud-server-new-client-message client))
 
