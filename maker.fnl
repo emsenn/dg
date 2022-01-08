@@ -12,7 +12,7 @@
 
 (lambda make-thing [maker ?attributes]
   (local thing (thing.make ?attributes))
-  (let [fen (require :fennel)] (print (fen.view thing)))
+  (when maker.dimension (set thing.dimension maker.dimension))
   (maker:add-thing thing)
   thing)
 
