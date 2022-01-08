@@ -23,7 +23,13 @@
   (tset map (I.P :start-)
         (lambda start-map [map]
           (each [id map-item (pairs (: map (I.P :load-)))]
-            (tset (. map name) id (area.make map-item (make-thing))))))
+            (let [area (area.make map-item (make-thing))]
+              (lambda area.save-area [area]
+                (map:submit-map-item
+                 area.id
+                 (map:make-map-item
+                  area.name area.description)))
+              (tset (. map name) id area)))))
   map)
 
 {: make}

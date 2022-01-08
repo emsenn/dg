@@ -5,7 +5,9 @@
 (lambda make [client]
   (object.make client.dimension.spawn-room :client "This is a client" client)
   (lambda client.mud-commands.look [client input]
-    (client:append-mud-output client.location.name))
+    (client:append-mud-output
+     (.. client.location.name "\n"
+         "  " client.location.description)))
   client)
 
 {: make}
