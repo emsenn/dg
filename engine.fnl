@@ -1,3 +1,5 @@
+(local util (require :util))
+
 (local thing (require :thing))
 (local user-accountant (require :user-accountant))
 
@@ -19,5 +21,5 @@
           :user-accounts
           (thing.make {:name "emsenn's digital garden"})))))
 (set engine.map (map.make :data/map :map (engine:make-thing)))
-
+(set engine.util util)
 engine

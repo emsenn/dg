@@ -15,6 +15,9 @@
               (load-data path))
             (print (.. "No file at " path
                        " and no fallback given. Failed to load."))))))
+;;; meta
+(lambda docstring [func]
+  (fennel.doc func))
 ;;; sequences
 (lambda find-key [seq query]
   "Return the first key in the SEQuence whose value matches QUERY."
@@ -77,4 +80,4 @@
 ;;; time
 (lambda render-time [time]
   (os.date "%Y%m%d:%H%M" time))
-{: save-data : load-data : find-key : collect-keys : make-id : make-string-appender : make-string-inserters : quibble-strings : render-time }
+{: save-data : load-data : find-key : collect-keys : make-id : make-string-appender : make-string-inserters : quibble-strings : render-time : docstring}
