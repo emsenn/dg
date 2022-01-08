@@ -9,8 +9,7 @@
   (local file-name (or ?file-name name))
   (local dictionary (data-handler.make
                      file-name name
-                     (or ?base (thing.make))
-                     {}))
+                     ?base {}))
   (local I (util.make-string-inserters name))
   (tset dictionary (I.I :submit- :-item)
         (lambda submit-dictionary-item [dictionary id item]

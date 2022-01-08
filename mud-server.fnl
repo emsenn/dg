@@ -30,7 +30,7 @@
                     server.dimension.name)
                server.dimension.name
                "a server."))
-       "\nInteract by inputting commands and pressing ENTER."
+       "\nInteract by inputting `commands` and pressing ENTER."
        (if client.mud-commands.client
            "Use `commands` to see a list of your available commands."
            ""))))
