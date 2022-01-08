@@ -20,8 +20,4 @@
           (thing.make {:name "emsenn's digital garden"})))))
 (set engine.map (map.make :data/map :map (engine:make-thing)))
 
-(engine.map:start-map)
-(set engine.spawn-room (. engine.map.map :2621f38d))
-
-(engine:start-mud-server)
-(engine:run-time)
+engine
