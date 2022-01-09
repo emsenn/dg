@@ -3,6 +3,8 @@
 ;; it's a basic socket server, aspiring to someday be a TELNET server with fancy stuff like MXP. But for now, it is what it is.
 (local socket (require :socket))
 
+(local util (require :util))
+
 (local thing (require :thing))
 (local mud-client (require :mud-client))
 
@@ -19,9 +21,8 @@
   (server:send-mud-server-new-client-message client))
 
 (lambda disconnect-mud-server-client [server client]
-  (each [key value (pairs server.mud-clients)]
-    (when (= value client.mud-connection)
-      (table.remove server.mud-clients key))))
+  (util.remove-value server.mud-clients client)
+  (client:destroy))
 
 (lambda send-mud-server-new-client-message [server client]
   (client:append-mud-output
@@ -55,7 +56,8 @@
   ;; parse any client input and send them their output
   (each [_ client (pairs server.mud-clients)]
     (match (client.mud-connection:receive)
-      (nil msg) (server:disconnect-mud-server-client client)
+      (nil msg) (when (= msg :closed)
+                  (server:disconnect-mud-server-client client))
       input (client:parse-mud-input input))
     (when (not (= client.mud-output ""))
       (client.mud-connection:send client.mud-output)

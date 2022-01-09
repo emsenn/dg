@@ -2,7 +2,6 @@
   (local user-accounts (client.dimension:load-user-accounts))
   (var matched? nil)
   (let [(user pass) (input:match "([^ ]+) ?(.*)")]
-    (print user pass)
     (each [id profile (pairs user-accounts)]
       (when (and (= user id)
                (= pass (. profile :password)))

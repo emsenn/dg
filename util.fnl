@@ -29,7 +29,12 @@
   "Return a sequence of TABle's keys."
   (icollect [key _ (pairs tab)] key))
 (lambda random-value [tab]
-  (. tab (math.random (length tab))))	
+  (. tab (math.random (length tab))))
+(lambda remove-value [tab item]
+  (each [key value (pairs tab)]
+    (when (= value item)
+      (table.remove tab key)))
+  tab)
 ;;; strings
 (lambda make-id [?existing]
   "Generates an ID, dismissing it if its already in EXISTING."
@@ -83,4 +88,4 @@
 ;;; time
 (lambda render-time [time]
   (os.date "%Y%m%d:%H%M" time))
-{: save-data : load-data : find-key : collect-keys : make-id : make-string-appender : make-string-inserters : quibble-strings : render-time : docstring}
+{: save-data : load-data : find-key : collect-keys : random-value : remove-value : make-id : make-string-appender : make-string-inserters : quibble-strings : render-time : docstring}

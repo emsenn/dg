@@ -28,7 +28,6 @@
    {: util
     :start-mud-engine (lambda [engine]
                         (when (. engine :map) (engine.map:start-map)
-                              (print "AH    " ?spawn-room)
                               (if ?spawn-room
                                   (set engine.spawn-room
                                        (. engine.map.map ?spawn-room))
