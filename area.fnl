@@ -12,12 +12,22 @@
   (map:submit-map-item
    (map:make-map-item area.name area.description)))
 
+(lambda search-area [area query ?matches]
+  (local matches (or ?matches []))
+  (lambda search [seq]
+    (each [_ item (pairs seq)]
+      (when (and item.name (= item.name query))
+        (table.insert matches item))))
+  (search area.contents) (search area.lookables)
+  matches)
+
 (lambda make [?map-item ?base]
   (local area (or ?base (thing.make)))
   (when ?map-item (area:set-attributes ?map-item))
   (area:set-attributes {:objects []
                         : receive-object
-                        : save-area})
+                        : save-area
+                        : search-area})
   area)
 
 {: make}
