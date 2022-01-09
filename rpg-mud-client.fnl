@@ -6,6 +6,7 @@
 
 (lambda make [client]
   (object.make client.dimension.spawn-room :client "This is a client" client)
+  (set client.size 3)
   (lambda client.look [client thing]
     (local A (util.make-string-appender "\n"))
     (when thing.name (A thing.name))

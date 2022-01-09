@@ -1,6 +1,7 @@
 ;;;; MUD client
 ;; a thing associated with a connection on the MUD server
 
+;; TODO doesn't get removed from places when disconnected!
 (local util (require :util))
 
 (local thing (require :thing))

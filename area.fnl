@@ -3,8 +3,10 @@
 
 (local thing (require :thing))
 
+(local container (require :container))
+
 (lambda receive-object [area object]
-  (table.insert area.objects object)
+  (table.insert area.contents object)
   (set object.location area))
 
 (lambda save-area [area]
@@ -22,10 +24,9 @@
   matches)
 
 (lambda make [?map-item ?base]
-  (local area (or ?base (thing.make)))
+  (local area (container.make ?base))
   (when ?map-item (area:set-attributes ?map-item))
-  (area:set-attributes {:objects []
-                        : receive-object
+  (area:set-attributes {: receive-object
                         : save-area
                         : search-area})
   area)
