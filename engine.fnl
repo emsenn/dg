@@ -1,0 +1,32 @@
+(local socket (require :socket))
+
+(local server (require :server))
+(local users (require :users))
+
+(lambda log [level message]
+  (print (.. level ": " message)))
+
+(lambda run [engine]
+  (engine:tick)
+  (socket.select nil nil 0.2)
+  (engine:run))
+
+(lambda schedule [engine event]
+  (table.insert engine.events event))
+
+(lambda start [engine]
+  (engine.users:load)
+  (engine.server:start engine))
+  
+(lambda tick [engine]
+  (set engine.tick-count (+ engine.tick-count 1))
+  (local events engine.events)
+  (set engine.events [])
+  (each [_ event (pairs events)]
+    (event)))
+
+
+{ :events [] :tick-count 0
+ : log
+ : run : schedule : start : tick
+ : server : users}
