@@ -23,6 +23,23 @@
               (func client)))
           (client:message (.. "Logged in as " client.name)))
       (client:message "Invalid user-name or pass.")))
+(lambda commands.look [client input]
+  (if (not (= input ""))
+      (let [matches []]
+        (if client.location (client.location:search-area input matches))
+        (if (= (length matches) 1)
+            (client:look (. matches 1))
+            (if (> (length matches) 1)
+                (client:message "Multiple matches.")
+                (client:message "No match."))))
+      (if client.location (client:look client.location)
+          (client:message "You aren't anyplace."))))
+(lambda commands.move [client input]
+  (if (not (= input ""))
+      (let [exit (. client.location.exits input)]
+        (if exit (client:move (. client.engine.map.areas exit))
+            (client:message "Invalid exit")))
+      (client:message "Include exit name")))
 (lambda commands.who [client input]
   (client:message
    (.. "There are " (length client.engine.server.clients)
@@ -33,13 +50,34 @@
 
 (lambda activate [client server connection]
   (set client.engine server.engine)
-  (set client.connection connection))
+  (set client.connection connection)
+  (client:move (. client.engine.map.areas client.engine.map.start-area)))
 
 (lambda disconnect [client]
   (util.remove-value client.dimension.server.clients client))
 
+(lambda look [client thing]
+  (local A (util.make-string-appender "\n"))
+  (when thing.name (A thing.name))
+  (when thing.description (A (.. "  " thing.description)))
+  (when thing.contents
+    (let [content-listing (util.quibble-strings
+                           (icollect [_ item (pairs thing.contents)]
+                             (when (and item.name item.size (> item.size 0))
+                               item.name)))]
+      (when content-listing (A (.. "Contents: " content-listing)))))
+  (when thing.exits
+    (A (.. "Exits: "
+           (util.quibble-strings (util.collect-keys thing.exits) true))))
+  (if (not (= (A) ""))
+      (client:message (A))
+      (client:message "Cannot see thing.")))
+
 (lambda message [client message]
   (set client.output (.. client.output message "\n")))
+
+(lambda move [client area]
+  (area:receive-object client))
 
 (lambda parse [client input]
             (let [(command line) (input:match "([^ ]+) ?(.*)")]
@@ -55,10 +93,13 @@
   (client.connection:send client.output)
   (set client.output ""))
 
-{:output "" :input ""
+{:name :Anonymouse :size 0
+ :output "" :input "" :location nil
  : activate
  : commands
  : disconnect
  : message
+ : look
+ : move
  : parse
  : send-output}

@@ -9,7 +9,6 @@
 (lambda clone-table [tab ?new-values]
   (local clone {})
   (add-values clone tab)
-  clone
   (when ?new-values (add-values clone ?new-values))
   clone)
 
@@ -82,6 +81,13 @@
       (o [(. strings count) join]))
     (o)))                           
 
+(lambda remove-value [tab item]
+  (each [key value (pairs tab)]
+    (when (= value item)
+      (table.remove tab key)))
+  tab)
+
+
 {: add-values
  : clone-table
  : collect-keys
@@ -89,6 +95,7 @@
  : make-id
  : make-string-appender
  : quibble-strings
+ : remove-value
  : save-data
  : fennel
  : socket}

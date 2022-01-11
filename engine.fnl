@@ -1,14 +1,15 @@
-(local socket (require :socket))
+(local util (require :util))
 
 (local server (require :server))
 (local users (require :users))
+(local map (require :map))
 
 (lambda log [level message]
   (print (.. level ": " message)))
 
 (lambda run [engine]
   (engine:tick)
-  (socket.select nil nil 0.2)
+  (util.socket.select nil nil 0.2)
   (engine:run))
 
 (lambda schedule [engine event]
@@ -16,6 +17,7 @@
 
 (lambda start [engine]
   (engine.users:load)
+  (engine.map:start)
   (engine.server:start engine))
   
 (lambda tick [engine]
@@ -29,4 +31,4 @@
 { :events [] :tick-count 0
  : log
  : run : schedule : start : tick
- : server : users}
+ : map : server : users}
