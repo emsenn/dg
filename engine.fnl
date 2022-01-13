@@ -1,6 +1,7 @@
 (local util (require :util))
 
 (local server (require :server))
+(local talker (require :talker))
 (local users (require :users))
 (local map (require :map))
 
@@ -18,6 +19,7 @@
 (lambda start [engine]
   (engine.users:load)
   (engine.map:start)
+  (engine.talker:start engine)
   (engine.server:start engine))
   
 (lambda tick [engine]
@@ -31,4 +33,4 @@
 { :events [] :tick-count 0
  : log
  : run : schedule : start : tick
- : map : server : users}
+ : map : server : talker : users}

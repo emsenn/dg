@@ -26,7 +26,8 @@
 (lambda commands.look [client input]
   (if (not (= input ""))
       (let [matches []]
-        (if client.location (client.location:search-area input matches))
+        (print client.location)
+        (when client.location (client.location:search-area input matches))
         (if (= (length matches) 1)
             (client:look (. matches 1))
             (if (> (length matches) 1)
@@ -80,14 +81,14 @@
   (area:receive-object client))
 
 (lambda parse [client input]
-            (let [(command line) (input:match "([^ ]+) ?(.*)")]
-        (var matched? nil)
-        (each [key func (pairs client.commands)]
-          (when (= command key)
-            (set matched? true)
-            (func client line)))
-        (when (not matched?)
-          (client:message "Invalid command; `commands` to list available commands."))))
+  (let [(command line) (input:match "([^ ]+) ?(.*)")]
+    (var matched? nil)
+    (each [key func (pairs client.commands)]
+      (when (= command key)
+        (set matched? true)
+        (func client line)))
+    (when (not matched?)
+      (client:message "Invalid command; `commands` to list available commands."))))
 
 (lambda send-output [client]
   (client.connection:send client.output)

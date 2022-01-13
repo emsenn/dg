@@ -14,12 +14,13 @@
 (lambda start [map]
   (each [id area-data (pairs (map:load))]
     (let [area (map:spawn-area area-data)]
-      (area:activate map)
-      (tset map.areas id area))))
+      (area:activate map))))
 
 (lambda make-area [map ?name ?description ?id]
-  (local area-data {:id (or ?id (util.make-id (util.collect-keys (map:load))))
-                    :name (or ?name :area)
+  (local id (or ?id (util.make-id (util.collect-keys (map:load)))))
+  (print "new area id is" id)
+  (local area-data {:id id
+                    :name (or ?name (.. "Area #" id))
                     :description (or ?description "This is an area.")})
   area-data)
 

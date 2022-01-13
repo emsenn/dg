@@ -1,7 +1,9 @@
 (local util (require :util))
 
 (lambda activate [area map]
-  (set area.map map))
+  (when (not area.exits) (set area.exits {}))
+  (set area.map map)
+  (tset area.map.areas area.id area))
 
 (lambda receive-object [area object]
   (when object.location
@@ -21,8 +23,18 @@
                           :exits area.exits})
   (area.map:save map-data))
 
+(lambda search-area [area query ?matches]
+  (local matches (or ?matches []))
+  (lambda search [seq]
+    (each [_ item (pairs seq)]
+      (when (and item.name (= item.name query))
+        (table.insert matches item))))
+  (search area.contents))
+  
+
 {:contents []
  : activate
  : receive-object
  : remove-object
- : save}
+ : save
+ : search-area}

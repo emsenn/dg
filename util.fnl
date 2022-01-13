@@ -33,18 +33,33 @@
             (print (.. "No file at " path
                        " and no fallback given. Failed to load."))))))
 
-(lambda make-id [?existing]
-  "Generates an ID, dismissing it if its already in EXISTING."
-  (lambda f [x]
-    (var r (- (math.random 16) 1))
-    (set r (or (and (= x :x) (+ r 1)) (+ (% r 4) 9)))
-    (: :0123456789abcdef :sub r r))
-  (let [gen (: :xxxxxxxx :gsub "[xy]" f)]
-    (when ?existing
-      (each [_ id (pairs ?existing)]
-        (when (= gen id)
-          (make-id ?existing))))
-    gen))
+(fn find-element [seq query]
+  (let [matched []]
+    (each [_ element (pairs seq)]
+      (when (= element query)
+        (table.insert matched element)))
+    (if (> (length matched) 0) true nil)))
+
+(fn find-item [tab query ?vals]
+  (let [seq []]
+  (each [key val (pairs tab)]
+    (if ?vals
+        (table.insert seq val)
+        (table.insert seq key)))
+  (find-element seq query)))
+     
+(fn make-id [?existing]
+  (print :EXISTING (fennel.view ?existing))
+  (fn gen-id [x]
+    (let [r (- (math.random 16) 1)
+          p (or (and (= x :x) (+ r 1)) (+ (% r 4) 9))]
+      (: :0123456789abcdef :sub p p)))
+  (let [gen (: :xxxxxxxx :gsub "[xy]" gen-id)]
+    (print "generated" gen)
+    (print (find-element (or ?existing []) gen))
+    (if (find-element (or ?existing []) gen)
+        (make-id ?existing)
+        gen)))
 
 (lambda make-string-appender [?sep]
   "Return a function that holds a string and accepts one atctional argument (string or list of strings). If provided, the argument is appended to the held string, with SEP appended (to each one, if its a list of strings.)"
@@ -88,9 +103,12 @@
   tab)
 
 
+
 {: add-values
  : clone-table
  : collect-keys
+ : find-element
+ : find-item
  : load-data
  : make-id
  : make-string-appender
