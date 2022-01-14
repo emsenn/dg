@@ -1,35 +1,12 @@
-{:10713fed {:description "This is an area."
-            :exits {:back "d6cce35c"}
-            :id "10713fed"
-            :name "Area #10713fed"}
- :1f813ae5 {:description "This is an area."
-            :exits {:back "d6cce35c"}
-            :id "1f813ae5"
-            :name "Area #1f813ae5"}
- :2621f38d {:description "This is an area."
-            :exits {:back "2621f38d"}
-            :id "2621f38d"
-            :name "Area #2621f38d"}
- :487a58fe {:description "This is an area."
-            :exits {:back "d6cce35c" :west "d6cce35c"}
-            :id "487a58fe"
-            :name "Area #487a58fe"}
- :8c6e45ce {:description "This is a hallway around emsenn's digital garden."
-            :exits {:west "d6cce35c"}
-            :id "8c6e45ce"
-            :name "hallway"}
- :94a87f4c {:description "This is an area."
-            :exits {:back "d6cce35c"}
-            :id "94a87f4c"
-            :name "Area #94a87f4c"}
- :ab29032c {:description "This is an area."
-            :exits {:back "d6cce35c"}
-            :id "ab29032c"
-            :name "Area #ab29032c"}
- :d6cce35c {:description "This is an area."
-            :exits {:back "487a58fe"
-                    :north "94a87f4c"
-                    :south "ab29032c"
-                    :up "10713fed"}
-            :id "d6cce35c"
-            :name "Area #d6cce35c"}}
+ :foyer {:description "This is the foyer to the GAZ-MUD; a quiet space where folk are encouraged to get situated before heading `out` into the wider MUD."
+         :exits {:out "hub"}
+         :id "foyer"
+         :name "the foyer"}
+ :hub {:description "This is the current hub of the GAZ-MUD. There is literally nothing here. Yet somehow, there is an exit to what is obviously the west, leading to the virtual makerspace."
+       :exits {:west "virtual-makerspace"}
+       :id "hub"
+       :name "the hub"}
+ :virtual-makerspace {:description "This is the virtual makerspace of the GAZ-MUD, a place where those with the `maker` role are encouraged to mess around. Please note, if you don't have that role, while you're allowed to roam the space, you might get stuck."
+                      :exits {:east "hub"}
+                      :id "virtual-makerspace"
+                      :name "the virtual makerspace"}}

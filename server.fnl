@@ -3,8 +3,13 @@
 (local client (require :client))
 
 (lambda send-connection-message [client]
-  (client:message
-   (.. "You've connected to emsenn's MUD. Input commands and press ENTER to interact; `commands` lists your available commands.")))
+  (local A (util.make-string-appender "\n"))
+  (A "You've connected to a the Groundhog Autonomous Zone Multi-User Dimension (GAZ-MUD).")
+  (A "To interact, input commands and press ENTER.")
+  (A "Useful commands: `look` to see where you are, `commands` for a list of commands.")
+  (A "  ( don't type the ` )")
+  (A "This MUD is created for participants in the GAZ, but is occasionally open to the Web. Please be aware, this place is new, and might fall apart if you poke it too hard.")
+  (client:message (A)))
 
 (lambda accept-connection [server connection]
   (connection:settimeout 0.01)

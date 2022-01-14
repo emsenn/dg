@@ -10,16 +10,18 @@
         (set client.location.name value)
         (if (= attribute :description)
             (set client.location.description value)
-            (client:message "Invalid attribute, can only change name or description.")))))
+            (client:message "Invalid attribute, can only change name or description."))))
+  (client.location:save))
 (lambda commands.make-area [client input]
   (local new-area (client.engine.map:spawn-area
                    (client.engine.map:make-area)))
-  (print (util.fennel.view new-area))
   (new-area:activate client.engine.map)
   (tset client.location.exits input new-area.id)
   (tset new-area.exits :back client.location.id)
   (client.location:save)
-  (new-area:save))
+  (new-area:save)
+  (client:message (.. "You made a new area, accessible through the "
+                      input " exit. (id #" new-area.id ")")))
 
                             
 

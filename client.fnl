@@ -26,19 +26,23 @@
 (lambda commands.look [client input]
   (if (not (= input ""))
       (let [matches []]
-        (print client.location)
+        (client:message (.. "You attempt to look at '" input "."))
         (when client.location (client.location:search-area input matches))
         (if (= (length matches) 1)
             (client:look (. matches 1))
             (if (> (length matches) 1)
                 (client:message "Multiple matches.")
                 (client:message "No match."))))
-      (if client.location (client:look client.location)
+      (if client.location (do
+                            (client:message "You look around the area.")
+                            (client:look client.location))
           (client:message "You aren't anyplace."))))
 (lambda commands.move [client input]
   (if (not (= input ""))
       (let [exit (. client.location.exits input)]
-        (if exit (client:move (. client.engine.map.areas exit))
+        (if exit (do
+                   (client:move (. client.engine.map.areas exit))
+                   (client:look client.location))
             (client:message "Invalid exit")))
       (client:message "Include exit name")))
 (lambda commands.who [client input]
@@ -50,6 +54,7 @@
    (.. "Your name is " (or client.name :unknown) ".")))
 
 (lambda activate [client server connection]
+  (set client.commands (util.clone-table client.commands))
   (set client.engine server.engine)
   (set client.connection connection)
   (client:move (. client.engine.map.areas client.engine.map.start-area)))
@@ -58,6 +63,7 @@
   (util.remove-value client.dimension.server.clients client))
 
 (lambda look [client thing]
+  (client:message (.. "You look at " (or thing.name "the thing") "."))
   (local A (util.make-string-appender "\n"))
   (when thing.name (A thing.name))
   (when thing.description (A (.. "  " thing.description)))
@@ -78,6 +84,7 @@
   (set client.output (.. client.output message "\n")))
 
 (lambda move [client area]
+  (client:message (.. "You move to " area.name))
   (area:receive-object client))
 
 (lambda parse [client input]

@@ -7,12 +7,17 @@
 
 (lambda receive-object [area object]
   (when object.location
-    (object.location:remove-object object))
+    (object.location:remove-object object area))
   (table.insert area.contents object)
   (set object.location area))
 
-(lambda remove-object [area object]
+(lambda remove-object [area object destination]
   (set area.contents (util.remove-value area.contents object))
+  (each [_ thing (pairs area.contents)]
+    (when (. thing :message)
+      (thing:message (.. object.name " moved "
+                         (if destination (.. "to " destination.name) "elsewhere")
+                         "."))))
   (set object.location nil))
 
 (lambda save [area]

@@ -31,7 +31,7 @@
 (lambda save [map data]
   (util.save-data data :areas))
 
-{:areas {} :start-area :d6cce35c
+{:areas {} :start-area :foyer
  : load
  : make-area
  : save
