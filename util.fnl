@@ -102,7 +102,8 @@
       (table.remove tab key)))
   tab)
 
-
+(lambda render-time [time]
+  (os.date "%Y%m%d:%H%M" time))
 
 {: add-values
  : clone-table
@@ -114,6 +115,7 @@
  : make-string-appender
  : quibble-strings
  : remove-value
+ : render-time
  : save-data
  : fennel
  : socket}

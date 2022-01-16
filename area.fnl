@@ -1,6 +1,7 @@
 (local util (require :util))
 
 (lambda activate [area map]
+  (when (not area.contents) (set area.contents []))
   (when (not area.exits) (set area.exits {}))
   (set area.map map)
   (tset area.map.areas area.id area))
@@ -37,8 +38,7 @@
   (search area.contents))
   
 
-{:contents []
- : activate
+{: activate
  : receive-object
  : remove-object
  : save
